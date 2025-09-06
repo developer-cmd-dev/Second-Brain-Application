@@ -29,10 +29,7 @@ UserSchema.pre('save', async function (next) {
 })
 
 UserSchema.methods.comparePassword = function(password:string){
-    bcrypt.compare(password,this.password,(err,ismatch)=>{
-        if(err) throw new Error("Password not matched")
-        ismatch=true;
-    })
+    bcrypt.compare(password,this.password)
 }
 
 const UserModel = model("User", UserSchema);
