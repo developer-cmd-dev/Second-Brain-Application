@@ -5,6 +5,7 @@ import * as z from 'zod';
 import {CustomError} from "../Exception/CustomError.js";
 import UserModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
+import {jwtService} from "../services/JWTService.js";
 
 const authMiddleware = async (req:Request,res:Response,next:NextFunction)=>{
     const ParsedUserData = z.safeParse(UserZodModel,req.body);
@@ -18,7 +19,8 @@ const authMiddleware = async (req:Request,res:Response,next:NextFunction)=>{
     // @ts-ignore
     const checkPassword = bcrypt.compare(password, dbResponse.password);
     if (!checkPassword) throw new CustomError("Bad Credential",401);
-
+    const token = jwtService.generateToken(email);
+    res.cookie("Access-token",token,{httpOnly:true});
     res.status(200).json({message:"Login Success"})
     next();
 }

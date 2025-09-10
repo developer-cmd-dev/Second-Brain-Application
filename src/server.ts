@@ -10,7 +10,6 @@ dontenv.config();
 
 const  PORT:number=4000;
 
-console.log(process.env.MONGODB_CONNECTION)
 
 //@ts-ignore
 mongoose.connect(process.env.MONGODB_CONNECTION)
