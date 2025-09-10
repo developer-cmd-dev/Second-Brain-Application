@@ -1,7 +1,5 @@
-import { NextFunction } from "express";
-import { Schema, model } from "mongoose";
+import mongoose, {Schema} from "mongoose";
 import bcrypt from 'bcrypt'
-import { stringify } from "querystring";
 
 
 const UserSchema = new Schema({
@@ -17,8 +15,7 @@ UserSchema.pre('save', async function (next) {
         if (!user.isModified('password')) next();
         if (!user.password) next()
         else {
-            const hashed = await bcrypt.hash(user.password, 10);
-            this.password = hashed;
+            this.password = await bcrypt.hash(user.password, 10);
             next();
         }
     } catch (error) {
@@ -32,7 +29,7 @@ UserSchema.methods.comparePassword = function(password:string){
     bcrypt.compare(password,this.password)
 }
 
-const UserModel = model("User", UserSchema);
+const UserModel =mongoose.model("User", UserSchema);
 
 export default UserModel;
 

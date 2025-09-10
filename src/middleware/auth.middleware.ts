@@ -22,3 +22,5 @@ const authMiddleware = async (req:Request,res:Response,next:NextFunction)=>{
     res.status(200).json({message:"Login Success"})
     next();
 }
+
+export default authMiddleware;
