@@ -10,16 +10,13 @@ dontenv.config();
 
 const  PORT:number=4000;
 
+console.log(process.env.MONGODB_CONNECTION)
 
-(async () => {
-    const mongoUri =process.env.MONGODB_CONNECTION;
-    
-    
-    mongoose.connect(`${mongoUri}`)
-    .then(() =>{
-        console.log("Mongodb is connected");
-         app.listen(PORT, (): void => console.log(`App is running on ${PORT}`))
-    })
-    .catch(error=>console.log(error.message))
-})()
-
+//@ts-ignore
+mongoose.connect(process.env.MONGODB_CONNECTION)
+.then(()=>{
+    console.log("MongoDB Connected");
+    app.listen(PORT, ()=>console.log(`App listening on port ${PORT}`))
+}).catch(err=>{
+    console.log(err.message)
+})
