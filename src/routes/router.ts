@@ -3,6 +3,7 @@ import { UserModel } from "../db.js";
 const router =express.Router()
 import { signup,signIn} from "../controller/userController.js";
 import authMiddleware from "../middleware/auth.middleware.js";
+import {jwtMiddleware} from "../middleware/jwt.middleware.js";
 
 
 router.post('/api/v1/signup',signup)

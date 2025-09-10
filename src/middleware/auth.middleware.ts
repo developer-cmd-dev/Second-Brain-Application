@@ -20,7 +20,7 @@ const authMiddleware = async (req:Request,res:Response,next:NextFunction)=>{
     const checkPassword = bcrypt.compare(password, dbResponse.password);
     if (!checkPassword) throw new CustomError("Bad Credential",401);
     const token = jwtService.generateToken(email);
-    res.cookie("Access-token",token,{httpOnly:true});
+    res.set('authorization', token);
     res.status(200).json({message:"Login Success"})
     next();
 }

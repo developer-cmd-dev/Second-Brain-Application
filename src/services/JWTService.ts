@@ -19,7 +19,7 @@ class JWTService{
     }
 
    public verifyToken(token:string):string|JwtPayload{
-       return jwt.verify(token, this.key)
+       return jwt.verify(token, this.key);
     }
 
 
