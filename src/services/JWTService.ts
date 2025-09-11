@@ -1,21 +1,26 @@
 
 import jwt, {JwtPayload} from "jsonwebtoken";
 import dotenv from "dotenv";
+import {CustomError} from "../Exception/CustomError.js";
 dotenv.config()
 class JWTService{
     private readonly key:string;
     constructor(key:string) {
     this.key=key;
-    console.log(key," this is key")
     }
 
    public generateToken(payload:string):string{
 
-       return jwt.sign(
-           {data:payload},
-            this.key,
-            {expiresIn: '1h'}
-        )
+        try {
+            return jwt.sign(
+                {data:payload},
+                this.key,
+                {expiresIn: '1h'}
+            )
+        }catch (e) {
+            // @ts-ignore
+            throw new CustomError(e.message,502)
+        }
     }
 
    public verifyToken(token:string):string|JwtPayload{

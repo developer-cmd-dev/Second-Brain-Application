@@ -11,6 +11,7 @@ dontenv.config();
 const  PORT:number=4000;
 
 
+
 //@ts-ignore
 mongoose.connect(process.env.MONGODB_CONNECTION)
 .then(()=>{
@@ -19,3 +20,6 @@ mongoose.connect(process.env.MONGODB_CONNECTION)
 }).catch(err=>{
     console.log(err.message)
 })
+
+
+//Cache func call
