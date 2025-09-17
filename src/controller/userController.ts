@@ -4,6 +4,8 @@ import * as z from 'zod'
 import {UserZodModel} from "../validation/ZodValidation.js";
 import {CustomError} from "../Exception/CustomError.js";
 import UserModel from "../models/UserModel.js";
+
+
 const signup = async(req:Request,res:Response)=>{
 res.set(200).json({message:"all good"});
 }

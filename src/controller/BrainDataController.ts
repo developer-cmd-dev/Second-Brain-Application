@@ -4,24 +4,28 @@ import {TagsModel} from "../models/TagsModel.js";
 import {CustomError} from "../Exception/CustomError.js";
 import {BrainDataModel} from "../models/BrainDataModel.js";
 import UserModel from "../models/UserModel.js";
+import {ObjectId} from "mongodb";
 
-
+type User = {
+    id:any,
+    name:string,
+    email:string,
+    password:string,
+    brainData:any,
+}
 
 
 const addBrainData =async (req:Request ,res:Response)=>{
     let {title, content, type,tags, link,} = req?.body;
         try{
-
-        let dataArr=[];
-
+        let dataArr:string[] = [];
        for (const tag of tags) {
        const dbData= await TagsModel.findOne({tagName:tag});
        if(!dbData){
           const data = await TagsModel.create({tagName:tag});
-          // @ts-ignore
-           dataArr.push(data);
+           dataArr.push(data._id.toString());
        }else{
-           dataArr.push(dbData);
+           dataArr.push(dbData._id.toString());
        }
 
        }
@@ -44,4 +48,15 @@ const addBrainData =async (req:Request ,res:Response)=>{
 
 }
 
-export {addBrainData}
+const getBrainData=async (req:Request ,res:Response)=>{
+    const response = await res.locals.userDataFromDb.populate({
+        path:"brainData",
+        populate:[
+            {path:"tags",name:"tags"},
+        ]
+    });
+    console.log(response);
+    res.status(200).json(response);
+}
+
+export {addBrainData,getBrainData}
