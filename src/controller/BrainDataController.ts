@@ -34,11 +34,9 @@ const addBrainData =async (req:Request ,res:Response)=>{
           link:link,
       })
             const userData = res.locals.userDataFromDb;
-      const savedInUser= await UserModel.updateOne({_id:userData._id.toString(),title:title},{$set:{brainData:response}})
+      const savedInUser= await UserModel.updateOne({_id:userData._id},{$set:{brainData:response}})
      if(!savedInUser) throw new CustomError("Internal Server Error",500)
-            console.log(savedInUser);
             res.status(200).json(response);
-
         }catch(err){
         // @ts-ignore
         throw new CustomError(err.message,505);
