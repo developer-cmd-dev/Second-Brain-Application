@@ -73,4 +73,8 @@ const deleteContent =async (req:Request ,res:Response)=>{
    }
 }
 
-export {addBrainData,getBrainData,deleteContent}
+const updateContent =async (req:Request ,res:Response)=>{
+
+}
+
+export {addBrainData,getBrainData,deleteContent,updateContent};
