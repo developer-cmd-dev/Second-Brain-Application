@@ -39,7 +39,6 @@ const addBrainData =async (req:Request ,res:Response)=>{
       })
             const userData = res.locals.userDataFromDb;
       const savedInUser= await UserModel.updateOne({_id:userData._id},{$set:{brainData:response}})
-     if(!savedInUser) throw new CustomError("Internal Server Error",500)
             res.status(200).json(response);
         }catch(err){
         // @ts-ignore
@@ -59,4 +58,19 @@ const getBrainData=async (req:Request ,res:Response)=>{
     res.status(200).json(response);
 }
 
-export {addBrainData,getBrainData}
+const deleteContent =async (req:Request ,res:Response)=>{
+   try {
+       const reqBody = req.body.contents;
+       // const response = await BrainDataModel.findById(reqBody[0]);
+       const response = await BrainDataModel.deleteMany({_id:{
+               $in: reqBody
+           }});
+       res.status(200).json(response);
+   }catch (error){
+       if (error instanceof CustomError){
+           throw new CustomError(error.message,500);
+       }
+   }
+}
+
+export {addBrainData,getBrainData,deleteContent}
